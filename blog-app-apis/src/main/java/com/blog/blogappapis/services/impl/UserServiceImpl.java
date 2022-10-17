@@ -5,12 +5,15 @@ import java.util.List;
 import com.blog.blogappapis.exceptions.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.blog.blogappapis.entities.User;
 import com.blog.blogappapis.payloads.UserDto;
 import com.blog.blogappapis.repositories.UserRepo;
 import com.blog.blogappapis.services.UserService;
 
+
+@Service
 public class UserServiceImpl implements UserService {
 
 	@Autowired
