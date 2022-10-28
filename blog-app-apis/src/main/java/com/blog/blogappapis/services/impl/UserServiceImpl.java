@@ -3,6 +3,8 @@ package com.blog.blogappapis.services.impl;
 import java.util.ArrayList;
 import java.util.List;
 import com.blog.blogappapis.exceptions.*;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,10 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepo userRepo;
+	
+	@Autowired
+	private ModelMapper modelMapper;
+	
 	@Override
 	public UserDto createUser(UserDto userDto) {
 		// TODO Auto-generated method stub
@@ -72,14 +78,12 @@ public class UserServiceImpl implements UserService {
 	
 	private User dtoToUser(UserDto userDto) {
 		
-		User user = new User();
-		BeanUtils.copyProperties(userDto, user);
+		User user = this.modelMapper.map(userDto, User.class);
 		return user;
 	}
 	
-	private UserDto userToDto(User user) {
-		UserDto userDto = new UserDto();
-		BeanUtils.copyProperties(user, userDto);
+	private UserDto userToDto(User user) {	
+		UserDto userDto = this.modelMapper.map(user,UserDto.class);
 		return userDto;
 	}
 	 
