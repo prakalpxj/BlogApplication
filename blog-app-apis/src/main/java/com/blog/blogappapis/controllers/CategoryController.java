@@ -2,6 +2,8 @@ package com.blog.blogappapis.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +33,7 @@ public class CategoryController {
 	
 	//create 
 	@PostMapping("/")
-	public ResponseEntity createCategory(@RequestBody CategoryDto categoryDto) {
+	public ResponseEntity createCategory(@Valid @RequestBody CategoryDto categoryDto) {
 		
 		CategoryDto createCategoryDto = this.categoryService.createCategory(categoryDto);
 		return new ResponseEntity<CategoryDto>(createCategoryDto, HttpStatus.CREATED);
@@ -41,7 +43,7 @@ public class CategoryController {
 	
 	//update
 	@PutMapping("/{categoryId}")
-	public ResponseEntity updateCategory(@RequestBody CategoryDto categoryDto, @PathVariable Integer categoryId) {
+	public ResponseEntity<CategoryDto> updateCategory(@Valid @RequestBody CategoryDto categoryDto, @PathVariable Integer categoryId) {
 		CategoryDto updatedCategoryDto = this.categoryService.updateCategory(categoryDto, categoryId);
 		
 		return new ResponseEntity<CategoryDto>(updatedCategoryDto, HttpStatus.OK);
@@ -49,21 +51,21 @@ public class CategoryController {
 	
 	//delete
 	@DeleteMapping("/{categoryId}")
-	public ResponseEntity deleteCategory(@PathVariable Integer categoryId) {
+	public ResponseEntity<ApiResponse> deleteCategory(@PathVariable Integer categoryId) {
 		this.categoryService.deleteCategory(categoryId);
 		
 		return new ResponseEntity<ApiResponse>(new ApiResponse("Category Deleted Successfully ", true), HttpStatus.OK);
 	}
 	//getOne
 	@GetMapping("/{categoryId}")
-	public ResponseEntity getOneCategory(@PathVariable Integer categoryId) {
+	public ResponseEntity<CategoryDto> getOneCategory(@PathVariable Integer categoryId) {
 		CategoryDto categoryDto = this.categoryService.getCategory(categoryId);
 		return new ResponseEntity<CategoryDto>(categoryDto,HttpStatus.OK);
 	}
 	
 	//getAll
 	@GetMapping("/")
-	public ResponseEntity getAllCategories() {
+	public ResponseEntity<List<CategoryDto>> getAllCategories() {
 		List<CategoryDto> allCategories = this.categoryService.getAllCategories();
 		return new ResponseEntity<List<CategoryDto>>(allCategories, HttpStatus.OK);
 	} 

@@ -1,5 +1,8 @@
 package com.blog.blogappapis.payloads;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,7 +12,11 @@ import lombok.Setter;
 @Setter
 public class CategoryDto {
 	private Integer categoryId;
+	@NotEmpty
+	@Size(min = 4)
 	private String categoryName;
+	@NotEmpty
+	@Size(min = 10)
 	private String categoryDescription;
 	
 	
