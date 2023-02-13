@@ -1,6 +1,7 @@
 package com.blog.blogappapis.entities;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,8 +11,16 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+
 @Entity
 @Table(name = "post")
+@NoArgsConstructor
+@Getter
+@Setter
 public class Post {
 	
 	@Id
