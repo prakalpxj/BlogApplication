@@ -8,14 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import com.blog.blogappapis.payloads.ApiResponse;
 import com.blog.blogappapis.payloads.PostDto;
 
 import com.blog.blogappapis.services.PostService;
@@ -52,9 +55,10 @@ public class PostController {
 	}
 	
 	@GetMapping("/")
-	public ResponseEntity<List<PostDto>> getAllPosts(){
+	public ResponseEntity<List<PostDto>> getAllPosts(@RequestParam(value = "pageNumber",defaultValue="1",required=false) Integer pageNumber,
+			@RequestParam(value = "pageSize",defaultValue="5",required=false) Integer pageSize){
 		
-		List<PostDto> allPosts = this.postService.getAllPosts();
+		List<PostDto> allPosts = this.postService.getAllPosts(pageNumber, pageSize);
 		
 		return new ResponseEntity<List<PostDto>>(allPosts, HttpStatus.OK);
 	}
@@ -65,6 +69,21 @@ public class PostController {
 		return new ResponseEntity<PostDto>(postDto, HttpStatus.OK)  ;
 	}
 	
+	@DeleteMapping("/delete/{postId}")
+	public ApiResponse deletePostById(@PathVariable Integer postId){
+		
+		this.postService.deletePost(postId);
+		
+		return new ApiResponse("Post id successfully deleted.", true);
+	} 
+	 
+	@PutMapping("/update/{postId}")
+	public ResponseEntity<PostDto> updatePost(@RequestBody PostDto postDto,  @PathVariable Integer postId){
+		
+		PostDto updatedPost = this.postService.updatePost(postDto, postId);
+		
+		return new ResponseEntity<PostDto>(updatedPost, HttpStatus.OK);
+	}
 	
 	}
 
