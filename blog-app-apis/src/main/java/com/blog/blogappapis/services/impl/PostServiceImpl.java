@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.blog.blogappapis.entities.Category;
@@ -16,10 +17,13 @@ import com.blog.blogappapis.entities.Post;
 import com.blog.blogappapis.entities.User;
 import com.blog.blogappapis.exceptions.ResourceNotFoundException;
 import com.blog.blogappapis.payloads.PostDto;
+import com.blog.blogappapis.payloads.PostResponse;
 import com.blog.blogappapis.repositories.CategoryRepo;
 import com.blog.blogappapis.repositories.PostRepo;
 import com.blog.blogappapis.repositories.UserRepo;
 import com.blog.blogappapis.services.PostService;
+
+
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -78,16 +82,27 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<PostDto> getAllPosts(Integer pageNumber, Integer pageSize) {
+	public PostResponse getAllPosts(Integer pageNumber, Integer pageSize, String sortBy) {
 		// TODO Auto-generated method stub
 		
-		Pageable p = PageRequest.of(pageNumber, pageSize);		
+		//pagination
+		Pageable p = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));    //Sort.by(sortBy).descending()	
 		Page<Post> pagePost = this.postRepo.findAll(p);
 		List<Post> allPosts = pagePost.getContent();
 		
 		List<PostDto> allPostsDto = allPosts.stream().map((post) -> this.modelMapper.map(post, PostDto.class))
 				.collect(Collectors.toList());
-		return allPostsDto;
+		
+		PostResponse postResponse = new PostResponse();
+		
+		postResponse.setContent(allPostsDto);
+		postResponse.setPageNumber(pagePost.getNumber());
+		postResponse.setPageSize(pagePost.getSize());
+		postResponse.setTotalElements(pagePost.getTotalElements());
+		postResponse.setTotalPages(pagePost.getTotalElements());
+		postResponse.setLastpage(pagePost.isLast());
+		
+		return postResponse;
 	}
 
 	@Override
@@ -127,9 +142,18 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public PostDto searchPosts(String keyword) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<PostDto> searchPosts(String keyword) {
+		
+		/*
+		 Alternate call in case of custom query
+		 List<Post> listPost = this.postRepo.searchByString("%" + keyword + "%");
+		 */
+		
+		List<Post> listPost = this.postRepo.findByTitleContaining(keyword);
+		List<PostDto> listPostDto = listPost.stream().map((post) -> this.modelMapper.map(post, PostDto.class))     //TODO: learn map, stream api, lambda
+				.collect(Collectors.toList());
+		
+		return listPostDto;
 	}
 
 }

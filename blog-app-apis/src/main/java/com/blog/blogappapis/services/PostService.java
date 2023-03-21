@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 
 import com.blog.blogappapis.payloads.PostDto;
+import com.blog.blogappapis.payloads.PostResponse;
 
 @Service
 public interface PostService {
@@ -20,7 +21,7 @@ public interface PostService {
 	PostDto updatePost(PostDto postDto, Integer postId);
 	
 	//get all posts
-	List<PostDto> getAllPosts(Integer pageNumber, Integer pageSize);
+	PostResponse getAllPosts(Integer pageNumber, Integer pageSize, String sortBy);
 	
 	//get one post
 	PostDto getOnePost(Integer postId);
@@ -32,6 +33,6 @@ public interface PostService {
 	List<PostDto> getPostsByUser(Integer userId);
 	
 	//search posts
-	PostDto searchPosts(String keyword);
+	List<PostDto> searchPosts(String keyword);
 	
 }
