@@ -18,6 +18,13 @@ public class CategoryDto {
 	@NotEmpty
 	@Size(min = 10)
 	private String categoryDescription;
+	public CategoryDto(Integer categoryId, @NotEmpty @Size(min = 4) String categoryName,
+			@NotEmpty @Size(min = 10) String categoryDescription) {
+		super();
+		this.categoryId = categoryId;
+		this.categoryName = categoryName;
+		this.categoryDescription = categoryDescription;
+	}
 	
 	
 }
