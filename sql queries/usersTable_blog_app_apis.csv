@@ -1,0 +1,4 @@
+id,about,email,user_name,password
+1,"John is a developer and dummy user",johndoe@gmail.com,"John Doe",John@123
+3,"Adam is a spring boot developer",adam@gmail.com,"Adam Smith",adam@123
+4,"Peter is a family guy",peter@gmail.com,"Peter Griffin",peter@123
