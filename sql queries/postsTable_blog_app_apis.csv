@@ -1,4 +1,0 @@
-post_id,added_date,content,image_name,post_title,category_category_id,user_id
-1,"2022-12-17 01:33:25.388000","This is a tech article. Hope this is enough for the day.",default1.png,"Tech Article 1",18,1
-2,"2023-02-13 23:37:49.038000",React.js,default.png,"Best front-end framework",21,1
-4,"2023-03-19 22:03:09.339000","Node.js is one more back-end framework which is popular.",default.png,"One more back-end framework",18,3
